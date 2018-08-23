@@ -1,0 +1,7 @@
+youtube_search.form:
+  path: '/youtube-search'
+  defaults:
+    _form: 'Drupal\youtube_service\Form\YoutubeSearchForm'
+    _title: 'Search Youtube'
+  requirements:
+    _permission: 'access content'
