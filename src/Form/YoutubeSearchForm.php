@@ -1,6 +1,6 @@
 <?php
 
-  namespace Drupal\youtube_service\Form;
+namespace Drupal\youtube_service\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -17,7 +17,7 @@ class YoutubeSearchForm extends FormBase {
   protected $customService;
 
   /**
-   *Constructor to instantiate the YoutubeSearchService.
+   * Constructor to instantiate the YoutubeSearchService.
    */
   public function __construct(YoutubeSearchService $customService) {
     $this->customService = $customService;
@@ -52,7 +52,6 @@ class YoutubeSearchForm extends FormBase {
     $form['video_search'] = [
       '#type' => 'textfield',
       '#title' => 'Keyword',
-
       '#required' => TRUE,
       '#prefix' => '<div id="search-result"></div>',
       '#ajax' => [
@@ -80,71 +79,62 @@ class YoutubeSearchForm extends FormBase {
     return $form;
   }
 
-
-   /**
+  /**
    * Validate function.
    */
   public function checkSearchValidation(array $form, FormStateInterface $form_state) {
 
-     $ajax_response = new AjaxResponse();
+    $ajax_response = new AjaxResponse();
 
-
-    if (!($this->validateSearch($form,$form_state))) {
+    if (!($this->validateSearch($form, $form_state))) {
       $css = ['border' => '1.5px solid red'];
-
       $text = 'Searched keyword already exits';
-
       $ajax_response->addCommand(new CssCommand('#edit-video-search', $css));
-
     }
     else {
-            $text = ' ';
-            $css = ['border' => '1px solid #ccc'];
-            $ajax_response->addCommand(new CssCommand('#edit-video-search', $css));
-
+      $text = ' ';
+      $css = ['border' => '1px solid #ccc'];
+      $ajax_response->addCommand(new CssCommand('#edit-video-search', $css));
     }
-
     $ajax_response->addCommand(new HtmlCommand('#search-result', $text));
-   return $ajax_response;
- }
+    return $ajax_response;
+  }
 
   /**
    * Validate if the search term is already present.
    */
- public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state) {
 
-      if(!($this->validateSearch($form,$form_state)))
-      {
+    if (!($this->validateSearch($form, $form_state))) {
       $form_state->setErrorByName('video_search', $this->t('This keyword already exists, try new keywords.'));
     }
   }
 
-
-
+  /**
+   * Helper function the searched keyword if they already exist or not.
+   */
   public function validateSearch(array &$form, FormStateInterface $form_state) {
 
     $properties = [];
     $name = $form_state->getValue('video_search');
-    If (!empty($name)) {
+    if (!empty($name)) {
       $properties['name'] = $name;
     }
     $vocabulary = \Drupal::entityTypeManager()->getStorage('taxonomy_vocabulary')->load('search_list');
     $vid = $vocabulary->get('vid');
-    If (!empty($vid)) {
+    if (!empty($vid)) {
       $properties['vid'] = $vid;
     }
-    $terms = \Drupal::entityManager()->getStorage('taxonomy_term')->loadByProperties($properties);
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties($properties);
     $term = reset($terms);
-     if(empty($term))
-     {
-      return true;
-     }
-     else{
-      return false;
-     }
+    if (empty($term)) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
 
   }
-
 
   /**
    * Send the search term to Youtube API.
@@ -152,26 +142,12 @@ class YoutubeSearchForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     $search_term = $form_state->getValue('video_search');
-
     $vocabulary = \Drupal::entityTypeManager()->getStorage('taxonomy_vocabulary')->load('search_list');
-
     $id = $vocabulary->get('vid');
-
-    $addTerm = $this->customService->addTerm($search_term, $id);
-
+    $this->customService->addTerm($search_term, $id);
     $num = $form_state->getValue('results_no');
-
-    $searchVideo = $this->customService->search($search_term, $num);
-
+    $this->customService->search($search_term, $num);
     drupal_set_message(t('Successfull.....!!!!! Adding the videos.'));
   }
 
-// $tids = \Drupal::entityQuery('taxonomy_term')
-//     ->condition('vid', 'search_list')
-//     ->execute();
-
-//   $controller = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
-//   $entities = $controller->loadMultiple($tids);
-//   $controller->delete($entities);
-// }
 }

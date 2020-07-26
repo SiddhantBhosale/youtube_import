@@ -1,4 +1,4 @@
-name: Youtube Import Module
+name: Youtube Videos Import Module
 description: Creates a module for importing "Youtube Vidoes".
 package: Custom
 type: module
