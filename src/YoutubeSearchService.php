@@ -32,7 +32,7 @@ class YoutubeSearchService {
     $q = '&q=' . $keywords;
     $maxResults = '&maxResults=' . $no;
     $part = 'part=snippet';
-    $key = '&key=AIzaSyChwseCpjkwEjFer9wNifZOLacU7xLCsEM';
+    $key = '&key=your_key';
     $baseurl = 'https://www.googleapis.com/youtube/v3/search?';
     $request = $this->client->request('GET', $baseurl . $part . $maxResults . $q . $key);
     $response = json_decode($request->getBody());
