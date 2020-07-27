@@ -1,11 +1,11 @@
 <?php
 
-namespace Drupal\youtube_service\Form;
+namespace Drupal\youtube_import\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\youtube_service\YoutubeSearchService;
+use Drupal\youtube_import\YoutubeSearchService;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\CssCommand;
@@ -28,7 +28,7 @@ class YoutubeSearchForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('youtube.default')
+      $container->get('youtube_search.service')
     );
   }
 

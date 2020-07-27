@@ -1,4 +1,0 @@
-services:
-  youtube.default:
-    class: Drupal\youtube_service\YoutubeSearchService
-    arguments: ['@http_client']

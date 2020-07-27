@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\youtube_service;
+namespace Drupal\youtube_import;
 
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;

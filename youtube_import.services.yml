@@ -1,0 +1,4 @@
+services:
+  youtube_search.service:
+    class: Drupal\youtube_import\YoutubeSearchService
+    arguments: ['@http_client']

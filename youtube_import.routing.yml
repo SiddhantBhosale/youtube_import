@@ -1,0 +1,16 @@
+youtube_search.form:
+  path: '/youtube-search'
+  defaults:
+    _form: 'Drupal\youtube_import\Form\YoutubeSearchForm'
+    _title: 'Search Youtube'
+  requirements:
+    _permission: 'access content'
+
+youtube_search_api.settings:
+  path: '/admin/config/youtube/settings'
+  defaults:
+    _form: '\Drupal\youtube_import\Form\ExampleSettingsForm'
+    _title: 'example'
+  requirements:
+    _permission: 'administer site configuration'
+
